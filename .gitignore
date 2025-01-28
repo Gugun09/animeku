@@ -1,0 +1,18 @@
+# Node.js dependencies
+node_modules/
+
+# TypeScript build files
+dist/
+
+# Logs
+*.log
+
+# Environment variables file
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files (contoh untuk VSCode)
+.vscode/
