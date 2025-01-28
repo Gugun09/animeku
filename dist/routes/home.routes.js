@@ -10,4 +10,5 @@ const router = express_1.default.Router();
 router.get('/home', home_controller_1.getAnimes);
 // Route untuk mendapatkan batch anime dengan pagination
 router.get('/batch', home_controller_1.getBatchAnimes);
+router.get('/terbaru', home_controller_1.getAnimesTerbaru);
 exports.default = router;

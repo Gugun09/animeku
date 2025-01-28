@@ -45,7 +45,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchBatchAnimes = exports.scrapeAnimeList = void 0;
+exports.fetchAnimesTerbaru = exports.fetchBatchAnimes = exports.scrapeAnimeList = void 0;
 const axios_1 = __importDefault(require("axios"));
 const cheerio = __importStar(require("cheerio"));
 const scrapeAnimeList = (url) => __awaiter(void 0, void 0, void 0, function* () {
@@ -128,3 +128,50 @@ const fetchBatchAnimes = (url_1, ...args_1) => __awaiter(void 0, [url_1, ...args
     }
 });
 exports.fetchBatchAnimes = fetchBatchAnimes;
+const fetchAnimesTerbaru = (url_1, ...args_1) => __awaiter(void 0, [url_1, ...args_1], void 0, function* (url, page = 1) {
+    const allAnimes = [];
+    let currentPage = page;
+    let totalPages = 1; // Default, akan diperbarui saat menemukan total halaman
+    try {
+        // Mengambil halaman yang sesuai berdasarkan currentPage
+        const { data } = yield axios_1.default.get(`${url}/anime-terbaru/page/${currentPage}/`);
+        const $ = cheerio.load(data);
+        const animes = [];
+        // Mengambil semua elemen anime dalam class .post-show
+        $('div.post-show ul li').each((i, elem) => {
+            const title = $(elem).find('h2.entry-title a').text().trim();
+            const episode = $(elem).find('span > b:contains("Episode")').next('author').text().trim();
+            const link = $(elem).find('h2.entry-title a').attr('href') || '';
+            const animeId = link.split('/').filter(Boolean).pop() || '';
+            const postedBy = $(elem).find('span.author').text().replace('Posted by:', '').trim();
+            const releasedOn = $(elem).find('span:contains("Released on")').text().replace('Released on:', '').trim();
+            const imageUrl = $(elem).find('img.anmsa').attr('src') || '';
+            // Pastikan semua data yang dibutuhkan ada
+            if (title && episode && link && animeId && postedBy && releasedOn && imageUrl) {
+                animes.push({ title, episode, link, animeId, postedBy, releasedOn, imageUrl });
+            }
+        });
+        // Mengambil informasi pagination
+        const paginationText = $('.pagination span').first().text();
+        const totalPagesMatch = paginationText.match(/Page (\d+) of (\d+)/);
+        if (totalPagesMatch) {
+            totalPages = parseInt(totalPagesMatch[2], 10); // Ambil jumlah total halaman dari teks
+        }
+        // Menyusun objek pagination
+        const pagination = {
+            currentPage,
+            hasPrevPage: currentPage > 1,
+            prevPage: currentPage > 1 ? currentPage - 1 : null,
+            hasNextPage: currentPage < totalPages,
+            nextPage: currentPage < totalPages ? currentPage + 1 : null,
+            totalPages,
+        };
+        // Mengembalikan data dan pagination
+        return { data: animes, pagination };
+    }
+    catch (error) {
+        console.error('Error fetching batch animes:', error);
+        throw new Error('Failed to fetch batch animes');
+    }
+});
+exports.fetchAnimesTerbaru = fetchAnimesTerbaru;

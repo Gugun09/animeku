@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { scrapeAnimeList,  fetchBatchAnimes } from '../services/home.service';
+import { scrapeAnimeList,  fetchBatchAnimes, fetchAnimesTerbaru } from '../services/home.service';
 
 const url = 'https://samehadaku.mba';
 
@@ -44,6 +44,27 @@ export const getBatchAnimes = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch batch animes',
+    });
+  }
+};
+
+// Route untuk anime terbaru dengan pagination
+export const getAnimesTerbaru = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || 1; // Mengambil parameter page dari query string
+
+  try {
+    const { data, pagination} = await fetchAnimesTerbaru(url, page); // Mengambil data anime terbaru
+
+    res.status(200).json({
+      success: true,
+      message: 'Latest anime list fetched successfully',
+      data,
+      pagination,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch latest animes',
     });
   }
 };

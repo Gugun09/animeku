@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBatchAnimes = exports.getAnimes = void 0;
+exports.getAnimesTerbaru = exports.getBatchAnimes = exports.getAnimes = void 0;
 const home_service_1 = require("../services/home.service");
 const url = 'https://samehadaku.mba';
 const getAnimes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,3 +52,23 @@ const getBatchAnimes = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getBatchAnimes = getBatchAnimes;
+// Route untuk anime terbaru dengan pagination
+const getAnimesTerbaru = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const page = parseInt(req.query.page) || 1; // Mengambil parameter page dari query string
+    try {
+        const { data, pagination } = yield (0, home_service_1.fetchAnimesTerbaru)(url, page); // Mengambil data anime terbaru
+        res.status(200).json({
+            success: true,
+            message: 'Latest anime list fetched successfully',
+            data,
+            pagination,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch latest animes',
+        });
+    }
+});
+exports.getAnimesTerbaru = getAnimesTerbaru;
