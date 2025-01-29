@@ -3,7 +3,7 @@ node_modules/
 
 # TypeScript build files
 # dist/
-index.html
+index.php
 req.js
 
 # Logs

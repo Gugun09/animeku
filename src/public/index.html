@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime API Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    main {
+      padding: 2em;
+      margin: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    .endpoint {
+      background-color: #fff;
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .endpoint h3 {
+      margin: 0;
+    }
+    .endpoint p {
+      margin: 0.5em 0;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 0.3em;
+      font-family: monospace;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Anime API Documentation</h1>
+  <p>Welcome to the Anime API! Below are the available endpoints.</p>
+</header>
+
+<main>
+  <div class="endpoint">
+    <h3>GET <a href="/api/home">/api/home</a></h3>
+    <p><strong>Description:</strong> Get a list of all anime.</p>
+  </div>
+
+  <div class="endpoint">
+    <h3>GET <a href="/api/batch">/api/batch</a></h3>
+    <p><strong>Description:</strong> Get batch anime with pagination.</p>
+  </div>
+
+  <div class="endpoint">
+    <h3>GET <a href="/api/terbaru">/api/terbaru</a></h3>
+    <p><strong>Description:</strong> Get a list of the latest anime.</p>
+  </div>
+
+  <div class="endpoint">
+    <h3>GET <a href="/api/anime/{animeId}">/api/anime/:animeId</a></h3>
+    <p><strong>Description:</strong> Get details of an anime by its <code>animeId</code>. Replace <code>{animeId}</code> with the actual anime ID.</p>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Anime API. All rights reserved.</p>
+  </footer>
+</main>
+
+</body>
+</html>
