@@ -3,6 +3,8 @@ node_modules/
 
 # TypeScript build files
 # dist/
+index.html
+req.js
 
 # Logs
 *.log
