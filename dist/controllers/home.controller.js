@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAnimesTerbaru = exports.getBatchAnimes = exports.getAnimes = void 0;
+exports.getStreamAnimeById = exports.getAnimeById = exports.getAnimesTerbaru = exports.getBatchAnimes = exports.getAnimes = void 0;
 const home_service_1 = require("../services/home.service");
 const url = 'https://samehadaku.mba';
 const getAnimes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -72,3 +72,45 @@ const getAnimesTerbaru = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getAnimesTerbaru = getAnimesTerbaru;
+const getAnimeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { animeId } = req.params;
+        // Mengambil data anime berdasarkan animeId
+        const animeDetails = yield (0, home_service_1.scrapeAnimeById)(url, animeId);
+        // Kirimkan response dengan data anime detail
+        res.status(200).json({
+            success: true,
+            message: 'Anime details fetched successfully',
+            data: animeDetails,
+        });
+    }
+    catch (error) {
+        console.error('Error fetching anime by ID:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch anime details',
+        });
+    }
+});
+exports.getAnimeById = getAnimeById;
+const getStreamAnimeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { animeId } = req.params;
+        // Mengambil data anime berdasarkan animeId
+        const animeDetails = yield (0, home_service_1.scrapeStreamAnimeById)(url, animeId);
+        // Kirimkan response dengan data anime detail
+        res.status(200).json({
+            success: true,
+            message: 'Anime details fetched successfully',
+            data: animeDetails,
+        });
+    }
+    catch (error) {
+        console.error('Error fetching anime by ID:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch anime details',
+        });
+    }
+});
+exports.getStreamAnimeById = getStreamAnimeById;
